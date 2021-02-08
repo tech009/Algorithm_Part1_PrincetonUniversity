@@ -11,6 +11,7 @@ public class Percolation {
     private int bottom;
     private boolean[][] grid;
     private WeightedQuickUnionUF qf;
+    private int openSites = 0;
 
     public Percolation(int n) {
         if (n <= 0)
@@ -44,6 +45,8 @@ public class Percolation {
             qf.union(getQFIndex(row, col), getQFIndex(row, col - 1));
         if (col < n && isOpen(row, col + 1))
             qf.union(getQFIndex(row, col), getQFIndex(row, col + 1));
+
+        openSites++;
     }
 
     public boolean isOpen(int row, int col) {
@@ -61,13 +64,17 @@ public class Percolation {
                 return true;
         return false;
     }
-    
+
+    public int numberOfOpenSites() {
+        return openSites;
+    }
+
 
     public boolean percolates() {
         return qf.connected(top, bottom);
     }
 
-    public int getQFIndex(int i, int j) {
+    private int getQFIndex(int i, int j) {
         return ((n * (i - 1)) + j);
     }
 }
